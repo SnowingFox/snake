@@ -30,31 +30,78 @@
 	<div class="game">
 		<div class="snake_body"></div>
 		<div class="snake_message"></div>
+		<div class="food"></div>
 	</div>
 	<script type="text/javascript">
 		var snake = document.querySelector('.snake_body'),
 			message = document.querySelector('.snake_message'),
-			x = 0,y = 0;
+			x = 0,y = 0,timer = null,
+			flagX,flagY;
 		window.onload = init;
 		function init(){
-			move();
+			move('no','top');
 		}
-		function move(x=0,y=0,dir='right'){
-			setInterval(function(){
-			//碰撞检测	
-				if(x-30 <=　window.innerWidth){
-					x+=20;
-					snake.style.left = x+'px';
-				}else{
-					message.innerHTML = 'Game Over';
-				}
-			},100);
+		/*
+		*/
+		function move(flagX='right',flagY='no'){
+			clearInterval(timer);
+			timer = setInterval(function(){
+					if(flagX == 'right'){
+						x+=10;
+						snake.style.left = x+'px';
+						if(x >= window.innerWidth){
+							snake.style.transition = 'all 0s linear';
+							x = -30;
+							setTimeout(function(){
+								snake.style.transition = 'all .1s linear';
+							},100);
+						}
+
+					}else if(x=='left'){
+
+						x-=10;
+						snake.style.left = x+'px';
+
+						if(x <= 0){
+
+							snake.style.transition = 'all 0s linear';
+							x = window.innerWidth-30;
+
+							setTimeout(function(){
+
+								snake.style.transition = 'all .1s linear';
+
+							},100);
+						}
+
+					}
+					if(flagY == 'bottom'){
+						y+=10;
+						snake.style.top = y+'px';
+						if(y >= window.innerHeight){
+							snake.style.transition = 'all 0s linear';
+							y = -30;
+							setTimeout(function(){
+								snake.style.transition = 'all .1s linear';
+							},100);
+						}
+
+					}else if(flagY == 'top'){
+						y-=10;
+						snake.style.top = y+'px';
+						if(y <= 0){
+							snake.style.transition = 'all 0s linear';
+							y = window.innerHeight+30;
+							setTimeout(function(){
+								snake.style.transition = 'all .1s linear';
+							},100);
+						}
+					}
+			},50);
 		}
 		function add(){
-
 		}
 		function reset(){
-
 		}
 	</script>
 </body>
